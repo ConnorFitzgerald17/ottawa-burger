@@ -9,12 +9,14 @@ export function ScoreSeal({
   size?: "small" | "large";
   label?: string;
 }) {
+  const shortLabel = label.replace(/\s+score$/i, "");
+
   return (
     <div
       className={cn("score-seal", size === "small" && "score-seal--small")}
       aria-label={`${label}: ${score.toFixed(1)} out of 10`}
     >
-      <span>{label}</span>
+      <span aria-hidden="true">{shortLabel}</span>
       <strong>{score.toFixed(1)}</strong>
       <small>/10</small>
     </div>

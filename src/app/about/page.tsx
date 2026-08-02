@@ -1,0 +1,18 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import { getReviewers } from "@/lib/reviews";
+
+export const metadata: Metadata = { title: "Our Burger Review Method", description: "How Connor and Alex choose the baseline burger and calculate every Ottawa Burger Spot score." };
+
+export default async function AboutPage() {
+  const reviewers = await getReviewers();
+  return (
+    <>
+      <section className="page-hero"><div className="shell page-hero__row"><div><p className="eyebrow">The rulebook</p><h1>Simple order. Serious scorecard.</h1></div><p>Not restaurant critics. Just two friends using the same test everywhere we go.</p></div></section>
+      <section className="section"><div className="narrow"><p className="manifesto">The best way to understand a burger spot is to order the thing it <em>can&apos;t hide behind.</em> We choose the original or closest basic burger, then score the whole experience separately.</p></div></section>
+      <section className="section section--ink"><div className="shell method-grid"><div><p className="eyebrow">Why the baseline works</p><h2>Keep the test honest.</h2><p className="lede" style={{ marginTop: "1.5rem", color: "#d8d0c3" }}>A mountain of toppings can be great, but it makes comparison messy. The baseline puts the patty, bun, seasoning, structure, and kitchen execution in plain sight.</p></div><div className="method-steps"><div className="method-step"><div><h3>Original first</h3><p>We order the house original, classic, or standard burger whenever one exists.</p></div></div><div className="method-step"><div><h3>Closest available</h3><p>If there is no plain option, we choose the menu item that reveals the core burger most clearly.</p></div></div><div className="method-step"><div><h3>Exceptions stay visible</h3><p>When a signature burger is the only sensible choice, the field report explains why.</p></div></div></div></div></section>
+      <section className="section"><div className="shell"><header className="section-heading"><div><p className="eyebrow">Equal voices at the table</p><h2>Two main reviewers.</h2></div><p>Connor and Alex have the same role, the same scorecard, and exactly the same influence on every final verdict.</p></header><div className="reviewer-grid">{reviewers.map((reviewer) => <article className="reviewer-card" key={reviewer.id}><div className="reviewer-card__avatar">{reviewer.avatarUrl ? <Image src={reviewer.avatarUrl} alt="" width={110} height={110}/> : reviewer.displayName.charAt(0)}</div><p className="eyebrow">Main reviewer</p><h3>{reviewer.displayName}</h3><p>{reviewer.bio}</p></article>)}</div></div></section>
+      <section className="section section--pickle"><div className="shell"><p className="eyebrow">The math, in plain English</p><h2>The burger gets 40%.</h2><p className="lede" style={{ maxWidth: 760, marginTop: "1.5rem" }}>For each reviewer, the burger score contributes 40% and all other applicable categories evenly share 60%. We then average both reviewer totals and round once to one decimal.</p><div className="method-table" style={{ color: "var(--ink)" }}><div className="method-table__row"><strong>Burger</strong><strong>40%</strong><span>The centre of the visit, always required.</span></div><div className="method-table__row"><strong>Everything else</strong><strong>60%</strong><span>Fries, beer, beer selection, service, and atmosphere share this evenly when applicable.</span></div><div className="method-table__row"><strong>Final spot score</strong><strong>÷ 2</strong><span>Connor and Alex&apos;s weighted totals are averaged into the number you see.</span></div></div></div></section>
+    </>
+  );
+}

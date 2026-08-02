@@ -199,13 +199,14 @@ p { margin: 0 0 1rem; }
 .review-card__scores .score-seal:nth-child(2) { color: var(--pickle); transform: rotate(4deg); }
 .review-card__order { font-size: .82rem; font-weight: 700; text-transform: uppercase; color: var(--tomato); }
 .rank-tab { position: absolute; left: 1rem; top: 1rem; z-index: 1; display: grid; place-items: center; width: 58px; height: 58px; border: 3px solid var(--ink); background: var(--mustard); font-family: var(--display); font-size: 1.25rem; transform: rotate(-6deg); }
-.score-seal { position: relative; display: grid; grid-template-rows: 3.1rem 1rem; align-content: center; justify-items: center; row-gap: .35rem; width: 148px; height: 148px; border: 3px solid currentColor; border-radius: 50%; text-align: center; transform: rotate(-4deg); box-shadow: inset 0 0 0 5px transparent, inset 0 0 0 7px currentColor; }
-.score-seal span { position: absolute; z-index: 1; top: 1.45rem; left: 50%; color: currentColor; font-weight: 700; font-size: .78rem; line-height: 1; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; transform: translateX(-50%); }
+.score-seal { position: relative; display: grid; grid-template-rows: 1rem 3.1rem 1rem; align-content: center; justify-items: center; row-gap: .35rem; width: 148px; height: 148px; border: 3px solid currentColor; border-radius: 50%; text-align: center; transform: rotate(-4deg); box-shadow: inset 0 0 0 5px transparent, inset 0 0 0 7px currentColor; }
+.score-seal__label { position: relative; z-index: 1; color: currentColor; font-weight: 700; font-size: .72rem; line-height: 1; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+.score-seal__label--short { display: none; }
 .score-seal strong { align-self: center; font-family: var(--display); font-size: 3.2rem; font-variant-numeric: tabular-nums; letter-spacing: -.06em; line-height: .8; }
 .score-seal small { align-self: start; font-size: .84rem; font-weight: 700; line-height: 1; }
-.score-seal--small { grid-template-rows: 1.8rem .65rem; row-gap: .15rem; width: 82px; height: 82px; color: var(--tomato); background: var(--paper-light); }
+.score-seal--small { grid-template-rows: .65rem 1.8rem .65rem; row-gap: .15rem; width: 82px; height: 82px; color: var(--tomato); background: var(--paper-light); }
 .score-seal--small strong { font-size: 1.9rem; }
-.score-seal--small span { top: .65rem; font-size: .55rem; letter-spacing: .07em; }
+.score-seal--small .score-seal__label { font-size: .48rem; letter-spacing: .07em; }
 .score-seal--small small { font-size: .6rem; }
 .baseline-stamp { display: inline-flex; flex-direction: column; padding: .3rem .55rem; color: var(--pickle); border: 2px solid currentColor; font-size: .62rem; line-height: 1.1; letter-spacing: .08em; text-transform: uppercase; transform: rotate(-1.5deg); }
 .baseline-stamp strong { font-size: .72rem; }
@@ -413,15 +414,17 @@ textarea { min-height: 130px; resize: vertical; }
   .review-card__top { grid-template-columns: 1fr; }
   .review-card__scores .score-seal { grid-template-rows: 1.5rem .55rem; row-gap: .12rem; width: 76px; height: 76px; border-width: 2px; box-shadow: inset 0 0 0 3px transparent, inset 0 0 0 5px currentColor; }
   .review-card__scores .score-seal strong { font-size: 1.5rem; }
-  .review-card__scores .score-seal span { top: .7rem; font-size: .46rem; }
   .review-card__scores .score-seal small { font-size: .55rem; }
   .filter-form, .form-grid, .form-grid--3 { grid-template-columns: 1fr; }
   .filter-form .field:first-child { grid-column: auto; }
   .review-hero__scores { right: 12px; bottom: 12px; gap: .4rem; }
   .review-hero__scores .score-seal { grid-template-rows: 2rem .72rem; row-gap: .22rem; width: 104px; height: 104px; border-width: 2px; box-shadow: inset 0 0 0 4px transparent, inset 0 0 0 6px currentColor; }
   .review-hero__scores .score-seal strong { font-size: 2rem; }
-  .review-hero__scores .score-seal span { top: 1.25rem; font-size: .58rem; }
   .review-hero__scores .score-seal small { font-size: .64rem; }
+  .review-card__scores .score-seal__label--full, .review-hero__scores .score-seal__label--full { display: none; }
+  .review-card__scores .score-seal__label--short, .review-hero__scores .score-seal__label--short { position: absolute; left: 50%; display: block; transform: translateX(-50%); }
+  .review-card__scores .score-seal__label--short { top: .7rem; font-size: .46rem; }
+  .review-hero__scores .score-seal__label--short { top: 1.25rem; font-size: .58rem; }
   .whiskey-sour-report { grid-template-columns: 1fr; gap: 1.5rem; }
   .whiskey-sour-report__heading { grid-column: auto; }
   .whiskey-sour-report .score-seal { width: 116px; height: 116px; }

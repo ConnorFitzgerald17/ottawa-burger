@@ -70,7 +70,7 @@ export default async function ReviewPage({ params }: { params: Params }) {
               {review.venue.isClosed ? <p className="closure-notice">This restaurant has permanently closed. We&apos;re keeping the review as a record of the visit.</p> : null}
             </div>
             <div className="review-hero__photo">
-              {cover ? <Image src={cover.url} alt={cover.alt} fill priority sizes="(max-width: 820px) 100vw, 520px" /> : <div className="burger-placeholder"><span className="burger-placeholder__bun"/><span className="burger-placeholder__fill"/><span className="burger-placeholder__base"/></div>}
+              {cover ? <Image src={cover.url} alt={cover.alt} fill priority sizes="(max-width: 820px) 100vw, 480px" /> : <div className="burger-placeholder"><span className="burger-placeholder__bun"/><span className="burger-placeholder__fill"/><span className="burger-placeholder__base"/></div>}
               <div className="review-hero__scores">
                 <ScoreSeal score={review.overallScore}/>
                 {burgerScore != null ? <ScoreSeal score={burgerScore} label="Burger score"/> : null}
@@ -102,7 +102,7 @@ export default async function ReviewPage({ params }: { params: Params }) {
         <div className="shell"><header className="section-heading"><div><p className="eyebrow">Two opinions, kept intact</p><h2>The scorecards</h2></div><p>Each reviewer scores the applicable categories. Burger owns 40%; everything else shares the remaining 60%.</p></header><div className="scorecards">{scorecards.map((scorecard) => <Scorecard key={scorecard.reviewer.id} scorecard={scorecard}/>)}</div></div>
       </section>
 
-      <section className="verdict-band"><div className="shell verdict-grid"><div><p className="eyebrow">The combined verdict</p><h2>{review.overallScore.toFixed(1)} / 10</h2></div><p>{review.verdict}</p></div></section>
+      <section className="verdict-band"><div className="shell verdict-grid"><div><p className="eyebrow">The combined verdict</p><h2>{review.overallScore.toFixed(1)}</h2></div><p>{review.verdict}</p></div></section>
 
       {gallery.length ? <section className="section"><div className="shell"><header className="section-heading"><div><p className="eyebrow">Evidence from the table</p><h2>The camera roll</h2></div></header><div className="gallery-grid">{gallery.map((image) => <div className="gallery-item" key={image.id}><Image src={image.url} alt={image.alt} fill sizes="(max-width: 560px) 100vw, 60vw" /></div>)}</div></div></section> : null}
     </>

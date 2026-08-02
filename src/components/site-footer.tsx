@@ -17,9 +17,15 @@ export function SiteFooter() {
           <a href="mailto:ottawaburgerspot@gmail.com">ottawaburgerspot@gmail.com</a>
           <Link href="/admin/login">Editor sign-in</Link>
         </div>
-        <p className="footer-small">
-          Independent reviews. No paid placements. Just burgers, fries, beer, and the honest scorecard.
-        </p>
+        <div className="footer-small">
+          <p>Independent reviews. No paid placements. Just burgers, fries, beer, and the honest scorecard.</p>
+          <p className="footer-credit">
+            Built by{" "}
+            <a href="https://baylinedigital.com/" target="_blank" rel="noopener noreferrer">
+              Bayline Digital Inc.
+            </a>
+          </p>
+        </div>
       </div>
       <LoopingMarquee
         tone="tomato"

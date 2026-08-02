@@ -381,6 +381,8 @@ textarea { min-height: 130px; resize: vertical; }
 .footer-links { display: grid; gap: .8rem; }
 .footer-links a { overflow-wrap: anywhere; text-decoration: underline; text-underline-offset: 4px; }
 .footer-small { color: #bdb5a8; font-size: .9rem; }
+.footer-credit { margin: 1.2rem 0 0; }
+.footer-credit a { color: var(--paper-light); text-decoration: underline; text-underline-offset: 4px; }
 @media (max-width: 820px) {
   .site-header__inner { min-height: 74px; }
   .site-header nav a:not(.nav-stamp) { display: none; }

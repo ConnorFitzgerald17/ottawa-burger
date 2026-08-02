@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, CalendarDays, ExternalLink, MapPin } from "lucide-react";
 import { BaselineStamp } from "@/components/baseline-stamp";
+import { ClosureStamp } from "@/components/closure-stamp";
 import { Scorecard } from "@/components/scorecard";
 import { ScoreSeal } from "@/components/score-seal";
 import { WhiskeySourReport } from "@/components/whiskey-sour-report";
@@ -59,13 +60,17 @@ export default async function ReviewPage({ params }: { params: Params }) {
           <Link className="review-hero__crumb" href="/reviews"><ArrowLeft size={17}/> Back to all spots</Link>
           <div className="review-hero__grid">
             <div>
-              <BaselineStamp type={review.baselineType} />
+              <div className="review-hero__stamps">
+                <BaselineStamp type={review.baselineType} />
+                {review.venue.isClosed ? <ClosureStamp /> : null}
+              </div>
               <h1>{review.venue.name}</h1>
               <p className="review-hero__summary">{review.summary}</p>
               <div className="review-meta"><span><MapPin size={18}/>{review.venue.neighbourhood}</span><span><CalendarDays size={18}/>{formatDate(review.visitDate)}</span></div>
+              {review.venue.isClosed ? <p className="closure-notice">This restaurant has permanently closed. We&apos;re keeping the review as a record of the visit.</p> : null}
             </div>
             <div className="review-hero__photo">
-              {cover ? <Image src={cover.url} alt={cover.alt} fill priority sizes="(max-width: 820px) 100vw, 45vw" /> : <div className="burger-placeholder"><span className="burger-placeholder__bun"/><span className="burger-placeholder__fill"/><span className="burger-placeholder__base"/></div>}
+              {cover ? <Image src={cover.url} alt={cover.alt} fill priority sizes="(max-width: 820px) 100vw, 520px" /> : <div className="burger-placeholder"><span className="burger-placeholder__bun"/><span className="burger-placeholder__fill"/><span className="burger-placeholder__base"/></div>}
               <div className="review-hero__scores">
                 <ScoreSeal score={review.overallScore}/>
                 {burgerScore != null ? <ScoreSeal score={burgerScore} label="Burger score"/> : null}
@@ -86,7 +91,7 @@ export default async function ReviewPage({ params }: { params: Params }) {
             {price ? <div className="ticket-row"><span>Burger price</span><span>{price}</span></div> : null}
             <div className="ticket-row"><span>Visited</span><span>{formatDate(review.visitDate)}</span></div>
             <div className="ticket-baseline"><BaselineStamp type={review.baselineType}/><p>{review.baselineNote}</p></div>
-            <a className="button button--ink" href={directionsUrl(review.venue.address)} target="_blank" rel="noreferrer" style={{ marginTop: "1.5rem", width: "100%" }}>Get directions <ExternalLink size={17}/></a>
+            {review.venue.isClosed ? <div className="closed-location-note">No longer operating at this location.</div> : <a className="button button--ink" href={directionsUrl(review.venue.address)} target="_blank" rel="noreferrer" style={{ marginTop: "1.5rem", width: "100%" }}>Get directions <ExternalLink size={17}/></a>}
           </aside>
         </div>
       </section>

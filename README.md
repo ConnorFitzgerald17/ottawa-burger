@@ -8,7 +8,7 @@ Requirements: Node.js 20.9 or newer and npm.
 
 1. Install dependencies with `npm install`.
 2. Copy `.env.example` to `.env.local` and add your Supabase project values.
-3. Apply `supabase/migrations/202608020001_initial_schema.sql` through the Supabase SQL editor or CLI.
+3. Apply every SQL file in `supabase/migrations` in filename order through the Supabase SQL editor or CLI.
 4. Start the app with `npm run dev` and open `http://localhost:3000`.
 
 Without Supabase variables, the public site intentionally renders its polished “first verdict coming soon” state. The editor explains that configuration is still required.

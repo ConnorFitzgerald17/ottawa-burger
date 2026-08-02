@@ -15,6 +15,7 @@ interface AdminVenue {
   neighbourhood: string;
   website_url: string | null;
   phone: string | null;
+  is_closed: boolean;
 }
 
 export function ReviewForm({ review, reviewers, venues, saved }: { review?: Review; reviewers: Reviewer[]; venues: AdminVenue[]; saved?: ReviewStatus }) {
@@ -63,12 +64,13 @@ export function ReviewForm({ review, reviewers, venues, saved }: { review?: Revi
     <section className="form-section">
       <h2>01 · The restaurant</h2>
       <div className="form-grid">
-        <div className="field field--full"><label htmlFor="venue-select">Use an existing spot</label><select id="venue-select" value={venueId} onChange={(event) => setVenueId(event.target.value)}><option value="">Create a new restaurant</option>{venues.map((venue) => <option key={venue.id} value={venue.id}>{venue.name} · {venue.neighbourhood}</option>)}</select><input type="hidden" name="venue_id" value={venueId}/></div>
+        <div className="field field--full"><label htmlFor="venue-select">Use an existing spot</label><select id="venue-select" value={venueId} onChange={(event) => setVenueId(event.target.value)}><option value="">Create a new restaurant</option>{venues.map((venue) => <option key={venue.id} value={venue.id}>{venue.name} · {venue.neighbourhood}{venue.is_closed ? " · CLOSED" : ""}</option>)}</select><input type="hidden" name="venue_id" value={venueId}/></div>
         <div className="field"><label htmlFor="venue-name">Restaurant name</label><input id="venue-name" name="venue_name" required defaultValue={selectedVenue?.name ?? review?.venue.name ?? ""} key={`name-${venueId}`}/></div>
         <div className="field"><label htmlFor="venue-neighbourhood">Neighbourhood</label><input id="venue-neighbourhood" name="venue_neighbourhood" required defaultValue={selectedVenue?.neighbourhood ?? review?.venue.neighbourhood ?? ""} key={`neighbourhood-${venueId}`}/></div>
         <div className="field field--full"><label htmlFor="venue-address">Street address</label><input id="venue-address" name="venue_address" required defaultValue={selectedVenue?.address ?? review?.venue.address ?? ""} key={`address-${venueId}`}/></div>
         <div className="field"><label htmlFor="venue-website">Website</label><input id="venue-website" name="venue_website" type="url" defaultValue={selectedVenue?.website_url ?? review?.venue.websiteUrl ?? ""} key={`website-${venueId}`}/></div>
         <div className="field"><label htmlFor="venue-phone">Phone</label><input id="venue-phone" name="venue_phone" type="tel" defaultValue={selectedVenue?.phone ?? review?.venue.phone ?? ""} key={`phone-${venueId}`}/></div>
+        <div className="field"><label htmlFor="venue-status">Operating status</label><select id="venue-status" name="venue_status" defaultValue={(selectedVenue?.is_closed ?? review?.venue.isClosed) ? "closed" : "open"} key={`status-${venueId}`}><option value="open">Currently operating</option><option value="closed">Permanently closed</option></select><p className="help">Closed spots stay public as historical field reports.</p></div>
       </div>
     </section>
 

@@ -36,6 +36,7 @@ export interface Venue {
   neighbourhood: string;
   websiteUrl: string | null;
   phone: string | null;
+  isClosed: boolean;
 }
 
 export interface Rating {

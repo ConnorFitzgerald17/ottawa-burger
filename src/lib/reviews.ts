@@ -55,6 +55,7 @@ interface DbReviewRow {
     neighbourhood: string;
     website_url: string | null;
     phone: string | null;
+    is_closed: boolean;
   };
   ratings: Array<{ reviewer_id: string; category: RatingCategory; score: number | string }>;
   review_images: Array<{
@@ -81,7 +82,7 @@ const reviewSelect = `
   burger_order, fries_order, beer_order, whiskey_sour_score, whiskey_sour_notes,
   burger_price_cents,
   baseline_type, baseline_note, overall_score,
-  venue:venues!inner(id, name, slug, address, neighbourhood, website_url, phone),
+  venue:venues!inner(id, name, slug, address, neighbourhood, website_url, phone, is_closed),
   ratings(reviewer_id, category, score),
   review_images(id, storage_path, alt, sort_order, is_cover),
   reviewer_takes(body, reviewer:reviewers(id, slug, display_name, bio, avatar_path))
@@ -101,6 +102,7 @@ function mapReview(row: DbReviewRow): Review {
     neighbourhood: row.venue.neighbourhood,
     websiteUrl: row.venue.website_url,
     phone: row.venue.phone,
+    isClosed: row.venue.is_closed,
   };
 
   const ratings: Rating[] = row.ratings.map((rating) => ({

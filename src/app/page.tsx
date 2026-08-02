@@ -8,7 +8,7 @@ import { getPublishedReviews } from "@/lib/reviews";
 export default async function HomePage() {
   const reviews = await getPublishedReviews();
   const latest = reviews.slice(0, 2);
-  const ranked = [...reviews].sort((a, b) => b.overallScore - a.overallScore).slice(0, 4);
+  const ranked = reviews.filter((review) => !review.venue.isClosed).sort((a, b) => b.overallScore - a.overallScore).slice(0, 4);
 
   return (
     <>

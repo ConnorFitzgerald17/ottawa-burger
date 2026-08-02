@@ -14,6 +14,7 @@ export const venueSchema = z.object({
   neighbourhood: z.string().trim().min(2).max(80),
   websiteUrl: optionalUrl,
   phone: z.string().trim().max(40).optional(),
+  isClosed: z.boolean().optional(),
 });
 
 export const ratingSchema = z.object({

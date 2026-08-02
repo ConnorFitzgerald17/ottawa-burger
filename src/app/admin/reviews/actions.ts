@@ -105,6 +105,7 @@ export async function saveReviewAction(_: SaveReviewState, formData: FormData): 
     neighbourhood: value(formData, "venue_neighbourhood"),
     website_url: value(formData, "venue_website") || null,
     phone: value(formData, "venue_phone") || null,
+    is_closed: value(formData, "venue_status") === "closed",
   };
   if (!venuePayload.address || !venuePayload.neighbourhood) return { error: "Add the restaurant address and neighbourhood." };
 

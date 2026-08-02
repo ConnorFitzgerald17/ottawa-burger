@@ -20,13 +20,13 @@ export async function requireEditor() {
 export async function getAdminVenues() {
   if (!hasSupabaseConfig()) return [];
   const supabase = await createSupabaseServerClient();
-  const { data } = await supabase.from("venues").select("id, name, address, neighbourhood, website_url, phone").order("name");
+  const { data } = await supabase.from("venues").select("id, name, address, neighbourhood, website_url, phone, is_closed").order("name");
   return data ?? [];
 }
 
 export async function getAdminReviewList() {
   if (!hasSupabaseConfig()) return [];
   const supabase = await createSupabaseServerClient();
-  const { data } = await supabase.from("reviews").select("id, slug, status, visit_date, updated_at, overall_score, venue:venues(name)").order("updated_at", { ascending: false });
+  const { data } = await supabase.from("reviews").select("id, slug, status, visit_date, updated_at, overall_score, venue:venues(name, is_closed)").order("updated_at", { ascending: false });
   return data ?? [];
 }

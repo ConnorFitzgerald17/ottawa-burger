@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, MapPin } from "lucide-react";
 import { BaselineStamp } from "@/components/baseline-stamp";
+import { ClosureStamp } from "@/components/closure-stamp";
 import { ScoreSeal } from "@/components/score-seal";
 import { calculateCategoryAverage } from "@/lib/scoring";
 import type { Review } from "@/lib/types";
@@ -35,7 +36,10 @@ export function ReviewCard({ review, rank }: { review: Review; rank?: number }) 
             {burgerScore != null ? <ScoreSeal score={burgerScore} size="small" label="Burger score" /> : null}
           </div>
         </div>
-        <BaselineStamp type={review.baselineType} />
+        <div className="review-card__stamps">
+          <BaselineStamp type={review.baselineType} />
+          {review.venue.isClosed ? <ClosureStamp /> : null}
+        </div>
         <h3>
           <Link href={`/reviews/${review.slug}`}>{review.venue.name}</Link>
         </h3>

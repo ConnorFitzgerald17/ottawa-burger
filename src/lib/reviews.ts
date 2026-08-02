@@ -41,6 +41,8 @@ interface DbReviewRow {
   burger_order: string;
   fries_order: string | null;
   beer_order: string | null;
+  whiskey_sour_score: number | string | null;
+  whiskey_sour_notes: string | null;
   burger_price_cents: number | null;
   baseline_type: BaselineType;
   baseline_note: string;
@@ -76,7 +78,8 @@ interface DbReviewRow {
 
 const reviewSelect = `
   id, slug, status, visit_date, published_at, summary, story, verdict,
-  burger_order, fries_order, beer_order, burger_price_cents,
+  burger_order, fries_order, beer_order, whiskey_sour_score, whiskey_sour_notes,
+  burger_price_cents,
   baseline_type, baseline_note, overall_score,
   venue:venues!inner(id, name, slug, address, neighbourhood, website_url, phone),
   ratings(reviewer_id, category, score),
@@ -140,6 +143,8 @@ function mapReview(row: DbReviewRow): Review {
     burgerOrder: row.burger_order,
     friesOrder: row.fries_order,
     beerOrder: row.beer_order,
+    whiskeySourScore: row.whiskey_sour_score == null ? null : Number(row.whiskey_sour_score),
+    whiskeySourNotes: row.whiskey_sour_notes,
     burgerPriceCents: row.burger_price_cents,
     baselineType: row.baseline_type,
     baselineNote: row.baseline_note,

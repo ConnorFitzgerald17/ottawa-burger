@@ -70,6 +70,8 @@ export interface Review {
   burgerOrder: string;
   friesOrder: string | null;
   beerOrder: string | null;
+  whiskeySourScore: number | null;
+  whiskeySourNotes: string | null;
   burgerPriceCents: number | null;
   baselineType: BaselineType;
   baselineNote: string;

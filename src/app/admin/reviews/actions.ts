@@ -32,9 +32,31 @@ export async function saveReviewAction(_: SaveReviewState, formData: FormData): 
   const verdict = value(formData, "verdict");
   const burgerOrder = value(formData, "burger_order");
   const baselineNote = value(formData, "baseline_note");
+  const whiskeySourScoreRaw = value(formData, "whiskey_sour_score");
+  const whiskeySourNotes = value(formData, "whiskey_sour_notes");
 
   if (!venueName || !visitDate || summary.length < 20 || story.length < 40 || verdict.length < 5|| !burgerOrder || baselineNote.length < 5) {
     return { error: "Complete the restaurant, visit, story, verdict, burger, and baseline fields before saving." };
+  }
+
+  if (Boolean(whiskeySourScoreRaw) !== Boolean(whiskeySourNotes)) {
+    return { error: "Add both the whiskey sour score and tasting notes, or leave both blank." };
+  }
+
+  let whiskeySourScore: number | null = null;
+  if (whiskeySourScoreRaw) {
+    whiskeySourScore = Number(whiskeySourScoreRaw);
+    if (
+      !Number.isFinite(whiskeySourScore)
+      || whiskeySourScore < 0
+      || whiskeySourScore > 10
+      || Math.abs(whiskeySourScore * 10 - Math.round(whiskeySourScore * 10)) >= 1e-9
+    ) {
+      return { error: "The whiskey sour score must be between 0.0 and 10.0 with no more than one decimal place." };
+    }
+    if (whiskeySourNotes.length < 10 || whiskeySourNotes.length > 1000) {
+      return { error: "Whiskey sour tasting notes must be between 10 and 1,000 characters." };
+    }
   }
 
   const ratings: Rating[] = [];
@@ -105,6 +127,8 @@ export async function saveReviewAction(_: SaveReviewState, formData: FormData): 
     burger_order: burgerOrder,
     fries_order: value(formData, "fries_order") || null,
     beer_order: value(formData, "beer_order") || null,
+    whiskey_sour_score: whiskeySourScore,
+    whiskey_sour_notes: whiskeySourNotes || null,
     burger_price_cents: value(formData, "burger_price") ? Math.round(Number(value(formData, "burger_price")) * 100) : null,
     baseline_type: value(formData, "baseline_type"),
     baseline_note: baselineNote,

@@ -81,6 +81,8 @@ export function ReviewForm({ review, reviewers, venues, saved }: { review?: Revi
         <div className="field"><label htmlFor="burger-order">Burger tested</label><input id="burger-order" name="burger_order" required defaultValue={review?.burgerOrder ?? ""} placeholder="The Classic Cheeseburger"/></div>
         <div className="field"><label htmlFor="fries-order">Fries tested</label><input id="fries-order" name="fries_order" defaultValue={review?.friesOrder ?? ""} placeholder="House fries"/></div>
         <div className="field"><label htmlFor="beer-order">Beer tested</label><input id="beer-order" name="beer_order" defaultValue={review?.beerOrder ?? ""} placeholder="Optional"/></div>
+        <div className="field"><label htmlFor="whiskey-sour-score">Whiskey sour score</label><input id="whiskey-sour-score" name="whiskey_sour_score" type="number" min="0" max="10" step="0.1" defaultValue={review?.whiskeySourScore ?? ""} placeholder="Optional"/><p className="help">Standalone score. This never changes the Spot score.</p></div>
+        <div className="field field--full"><label htmlFor="whiskey-sour-notes">Whiskey sour tasting notes</label><textarea id="whiskey-sour-notes" name="whiskey_sour_notes" minLength={10} maxLength={1000} defaultValue={review?.whiskeySourNotes ?? ""} placeholder="Tartness, balance, foam, spirit, garnish…"/><p className="help">Optional, but score and notes must be completed together.</p></div>
         <div className="field field--full"><label htmlFor="baseline-note">Why this was the baseline</label><textarea id="baseline-note" name="baseline_note" required defaultValue={review?.baselineNote ?? ""} placeholder="The simplest burger on the menu, ordered as served…"/></div>
       </div>
     </section>

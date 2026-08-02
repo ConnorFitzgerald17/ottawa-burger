@@ -29,6 +29,37 @@ export const ratingSchema = z.object({
     ),
 });
 
+const whiskeySourScoreSchema = z
+  .number()
+  .min(0)
+  .max(10)
+  .refine(
+    (value) => Math.abs(value * 10 - Math.round(value * 10)) < 1e-9,
+    "Use no more than one decimal place",
+  );
+
+function validateWhiskeySourPair(
+  details: { whiskeySourScore?: number; whiskeySourNotes?: string },
+  context: z.RefinementCtx,
+) {
+  const hasScore = details.whiskeySourScore !== undefined;
+  const hasNotes = Boolean(details.whiskeySourNotes?.trim());
+  if (hasScore === hasNotes) return;
+
+  context.addIssue({
+    code: "custom",
+    path: hasScore ? ["whiskeySourNotes"] : ["whiskeySourScore"],
+    message: "Add both the whiskey sour score and tasting notes, or leave both blank",
+  });
+}
+
+export const whiskeySourDetailsSchema = z
+  .object({
+    whiskeySourScore: whiskeySourScoreSchema.optional(),
+    whiskeySourNotes: z.string().trim().min(10).max(1000).optional(),
+  })
+  .superRefine(validateWhiskeySourPair);
+
 export const reviewSchema = z.object({
   id: databaseUuid.optional(),
   venue: venueSchema,
@@ -39,6 +70,8 @@ export const reviewSchema = z.object({
   burgerOrder: z.string().trim().min(2).max(160),
   friesOrder: z.string().trim().max(160).optional(),
   beerOrder: z.string().trim().max(160).optional(),
+  whiskeySourScore: whiskeySourScoreSchema.optional(),
+  whiskeySourNotes: z.string().trim().min(10).max(1000).optional(),
   burgerPrice: z.number().min(0).max(500).optional(),
   baselineType: z.enum(["original", "closest", "exception"]),
   baselineNote: z.string().trim().min(5).max(500),
@@ -49,6 +82,6 @@ export const reviewSchema = z.object({
       body: z.string().trim().min(10).max(800),
     }),
   ),
-});
+}).superRefine(validateWhiskeySourPair);
 
 export type ReviewInput = z.infer<typeof reviewSchema>;

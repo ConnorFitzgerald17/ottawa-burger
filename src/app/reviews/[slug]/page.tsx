@@ -6,8 +6,9 @@ import { ArrowLeft, CalendarDays, ExternalLink, MapPin } from "lucide-react";
 import { BaselineStamp } from "@/components/baseline-stamp";
 import { Scorecard } from "@/components/scorecard";
 import { ScoreSeal } from "@/components/score-seal";
+import { WhiskeySourReport } from "@/components/whiskey-sour-report";
 import { getPublishedReviews, getReviewBySlug } from "@/lib/reviews";
-import { calculateReviewerScore } from "@/lib/scoring";
+import { calculateCategoryAverage, calculateReviewerScore } from "@/lib/scoring";
 import type { ReviewerScorecard } from "@/lib/types";
 import { directionsUrl, formatDate, formatPrice } from "@/lib/utils";
 
@@ -38,6 +39,7 @@ export default async function ReviewPage({ params }: { params: Params }) {
   const cover = review.images.find((image) => image.isCover) ?? review.images[0];
   const gallery = review.images.filter((image) => image.id !== cover?.id);
   const price = formatPrice(review.burgerPriceCents);
+  const burgerScore = calculateCategoryAverage(review.ratings, "burger");
   const scorecards: ReviewerScorecard[] = review.reviewerTakes.map(({ reviewer, body }) => {
     const ratings = review.ratings.filter((rating) => rating.reviewerId === reviewer.id);
     return { reviewer, take: body, scores: ratings.map(({ category, score }) => ({ category, score })), weightedScore: calculateReviewerScore(ratings) ?? 0 };
@@ -64,7 +66,10 @@ export default async function ReviewPage({ params }: { params: Params }) {
             </div>
             <div className="review-hero__photo">
               {cover ? <Image src={cover.url} alt={cover.alt} fill priority sizes="(max-width: 820px) 100vw, 45vw" /> : <div className="burger-placeholder"><span className="burger-placeholder__bun"/><span className="burger-placeholder__fill"/><span className="burger-placeholder__base"/></div>}
-              <ScoreSeal score={review.overallScore}/>
+              <div className="review-hero__scores">
+                <ScoreSeal score={review.overallScore}/>
+                {burgerScore != null ? <ScoreSeal score={burgerScore} label="Burger score"/> : null}
+              </div>
             </div>
           </div>
         </div>
@@ -85,6 +90,8 @@ export default async function ReviewPage({ params }: { params: Params }) {
           </aside>
         </div>
       </section>
+
+      {review.whiskeySourScore != null && review.whiskeySourNotes ? <WhiskeySourReport score={review.whiskeySourScore} notes={review.whiskeySourNotes} /> : null}
 
       <section className="section score-section">
         <div className="shell"><header className="section-heading"><div><p className="eyebrow">Two opinions, kept intact</p><h2>The scorecards</h2></div><p>Each reviewer scores the applicable categories. Burger owns 40%; everything else shares the remaining 60%.</p></header><div className="scorecards">{scorecards.map((scorecard) => <Scorecard key={scorecard.reviewer.id} scorecard={scorecard}/>)}</div></div>

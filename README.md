@@ -47,4 +47,14 @@ Every category accepts scores from 0.0–10.0 in one-decimal increments. The ser
 
 ## Verification and deployment
 
+### Analytics
+
+Vercel Web Analytics is installed in the root layout and tracks page views, including client-side navigation. No additional environment variables are required.
+
+In the Vercel dashboard, open **Analytics**, select this project, and click **Enable** before deploying. If you enable it after a deployment, redeploy so Vercel provisions the analytics routes. Once deployed, visit the site and view visitor counts, page views, and referrers in the same dashboard. Local development uses debug mode and does not send analytics data.
+
+See the [Vercel Web Analytics setup guide](https://vercel.com/docs/analytics/quickstart).
+
+### Checks and hosting
+
 Run `npm run check` for type checking, linting, unit tests, and a production build. Deploy the repository to Vercel, copy the environment variables into the project, and point `ottawaburgerspot.com` at the deployment. Update Supabase Auth’s site URL to the final HTTPS domain.
